@@ -1,5 +1,8 @@
 var botaoCalcula = $("#calcula-dano");
 var personagens = document.querySelectorAll(".personagem");
+var spanDano = document.querySelector("#mostra-dano");
+var nomePersonagem = document.querySelector("#personagem-atacado");
+var danoCausado = document.querySelector("#dano-causado");
 
 botaoCalcula.click(function(event) {
     event.preventDefault();
@@ -11,6 +14,11 @@ botaoCalcula.click(function(event) {
     var dadosPersonagem = comparaNomePersonagem(personagens, personagemAtacante);
     var danoCalculado = calculaDano(dadosPersonagem, personagemAtacante);
     console.log(personagemAtacante, dadosPersonagem);
+
+    spanDano.classList.remove("invisivel");
+    nomePersonagem.textContent = personagemAtacante.nome;
+    danoCausado.textContent = danoCalculado;
+
 });
 
 // Pega os dados do form para calcular o dano
@@ -61,12 +69,28 @@ function calculaDano(dadosPersonagem, personagemAtacante) {
 
     if(ataque >= defesa) {
       var ataqueSucesso = ataque -= defesa;
-      console.log(ataqueSucesso);
+      console.log("O excedente de ataque foi: " + ataqueSucesso);
     }
 
     var grauDeSucesso = calculaGrauDeSucesso(ataqueSucesso);
     console.log("O grau de sucesso é: " + grauDeSucesso);
 
+    var danoCalculado = calculoDoDano(dano, grauDeSucesso, armadura);
+    console.log("O dano causado é: " + danoCalculado);
+
+    return danoCalculado;
+
+}
+
+function calculoDoDano(dano, grauDeSucesso, armadura) {
+
+    if(grauDeSucesso > 0) {
+      var dano = (dano * grauDeSucesso) - armadura;
+    } else {
+      var dano = 0;
+    }
+
+    return dano;
 }
 
 function calculaGrauDeSucesso(ataqueSucesso) {
