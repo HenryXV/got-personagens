@@ -90,6 +90,10 @@ function calculoDoDano(dano, grauDeSucesso, armadura) {
       var dano = 0;
     }
 
+    if(dano < 0) {
+      var dano = 0;
+    }
+
     return dano;
 }
 
